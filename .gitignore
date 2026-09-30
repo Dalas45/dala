@@ -1,0 +1,25 @@
+# dependencies
+/node_modules
+# next.js
+/.next/
+/out/
+# production
+/build
+# misc
+.DS_Store
+*.pem
+# debug
+npm-debug.log*
+# env files
+.env*
+!.env.example
+# vercel
+.vercel
+# typescript
+*.tsbuildinfo
+next-env.d.ts
+# originele bronfoto's (worden niet gedeployed; zie README)
+/_source/
+*.zip
+# python
+__pycache__/

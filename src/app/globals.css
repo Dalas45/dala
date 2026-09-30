@@ -1,0 +1,360 @@
+@import "tailwindcss";
+
+/* ==================================================================
+   DALAS — design system
+   Cinematografisch: de site wisselt tussen diepe noir-secties en lichte
+   ivoren secties. Elke pagina opent donker, zodat de fotografie na die
+   opening maximaal tot zijn recht komt.
+   ================================================================== */
+@theme {
+  /* --- Typografie --------------------------------------------------
+     Bodoni Moda: hoog-contrast didone, uitsluitend voor display.
+     Inter Tight: strakke moderne sans voor UI en lopende tekst.        */
+  --font-display: var(--font-bodoni), "Bodoni Moda", "Didot", Georgia, serif;
+  --font-sans: var(--font-inter-tight), "Inter Tight", ui-sans-serif, system-ui, sans-serif;
+
+  /* --- Donker (noir) ---------------------------------------------- */
+  --color-noir: #0d0b0a;
+  --color-noir-soft: #16120f;
+  --color-noir-raised: #1e1916;
+  --color-noir-line: #2c2521;
+  /* Tekst op donker */
+  --color-on-noir: #f7f4ee;
+  --color-on-noir-muted: #a69c90;
+
+  /* --- Licht ------------------------------------------------------ */
+  --color-ivory: #f7f4ee;
+  --color-porcelain: #fffdf9;
+  --color-cream: #eee8dd;
+  --color-line: #e1d9cc;
+  --color-line-strong: #c7bcaa;
+  /* Tekst op licht */
+  --color-ink: #14110f;
+  --color-ink-soft: #3d3831;
+  --color-muted: #6e655c;
+
+  /* --- Accent -----------------------------------------------------
+     champagne = op donker, gold = op licht. Beide halen WCAG AA.      */
+  --color-champagne: #d9be87;
+  --color-champagne-dim: #9c8659;
+  --color-gold: #7a6139;
+  --color-gold-deep: #5f4b2b;
+
+  --color-success: #3f6b4f;
+  --color-error: #a33f36;
+
+  /* --- Motion ----------------------------------------------------- */
+  --ease-couture: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-soft: cubic-bezier(0.4, 0, 0.2, 1);
+
+  --shadow-soft: 0 1px 2px rgba(13, 11, 10, 0.04), 0 18px 54px -24px rgba(13, 11, 10, 0.22);
+  --shadow-lift: 0 2px 6px rgba(13, 11, 10, 0.08), 0 40px 90px -32px rgba(13, 11, 10, 0.4);
+
+  --tracking-luxe: 0.2em;
+  --tracking-wide-luxe: 0.34em;
+
+  /* Display-schaal.
+     display-xl schaalt mee met de viewport-HOOGTE zowel als de breedte. Op een
+     laptop met een lage viewport blijft de hero-CTA daardoor boven de vouw,
+     terwijl de kop op een groot scherm wel groots uitpakt. */
+  --text-display-xl: clamp(3rem, min(6vw, 10.5vh), 7.5rem);
+  --text-display-lg: clamp(2.5rem, 5.5vw, 5rem);
+  --text-display-md: clamp(2rem, 3.6vw, 3.25rem);
+  --text-display-sm: clamp(1.5rem, 2.2vw, 2.125rem);
+}
+
+@layer base {
+  :root {
+    color-scheme: light;
+  }
+
+  html {
+    -webkit-text-size-adjust: 100%;
+  }
+
+  body {
+    @apply bg-ivory font-sans text-ink-soft antialiased;
+    font-feature-settings: "kern" 1, "liga" 1, "calt" 1, "ss01" 1;
+    text-rendering: optimizeLegibility;
+    overflow-x: hidden;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4 {
+    @apply font-display;
+    font-weight: 400;
+    letter-spacing: -0.02em;
+    line-height: 0.98;
+    text-wrap: balance;
+  }
+
+  p {
+    text-wrap: pretty;
+  }
+
+  ::selection {
+    background: var(--color-champagne);
+    color: var(--color-noir);
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--color-gold);
+    outline-offset: 3px;
+  }
+
+  /* Binnen donkere secties verspringt de focusring mee. */
+  .tone-noir :focus-visible {
+    outline-color: var(--color-champagne);
+  }
+
+  img,
+  video {
+    height: auto;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    html {
+      scroll-behavior: auto !important;
+    }
+    *,
+    *::before,
+    *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+      scroll-behavior: auto !important;
+    }
+  }
+}
+
+@layer components {
+  /* --- Layout ------------------------------------------------------ */
+  .container-x {
+    @apply mx-auto w-full max-w-[104rem] px-5 sm:px-8 lg:px-14;
+  }
+
+  .container-narrow {
+    @apply mx-auto w-full max-w-4xl px-5 sm:px-8;
+  }
+
+  /* Donkere sectie. `tone-noir` stuurt ook de header en de focusring aan. */
+  .tone-noir {
+    @apply bg-noir text-on-noir-muted;
+  }
+  .tone-noir h1,
+  .tone-noir h2,
+  .tone-noir h3,
+  .tone-noir h4 {
+    @apply text-on-noir;
+  }
+
+  /* --- Typografie -------------------------------------------------- */
+  .display-xl {
+    font-size: var(--text-display-xl);
+    line-height: 0.92;
+    letter-spacing: -0.035em;
+  }
+  .display-lg {
+    font-size: var(--text-display-lg);
+    line-height: 0.95;
+    letter-spacing: -0.03em;
+  }
+  .display-md {
+    font-size: var(--text-display-md);
+  }
+  .display-sm {
+    font-size: var(--text-display-sm);
+  }
+
+  /* Klein gespatieerd label; het typografische handschrift van het merk.
+     De eigenschappen staan bewust twee keer: Tailwind v4 kan een eigen
+     component-klasse niet via @apply hergebruiken. */
+  .label {
+    @apply font-sans text-[0.6rem] font-medium uppercase tracking-wide-luxe sm:text-[0.65rem];
+  }
+
+  .eyebrow {
+    @apply font-sans text-[0.6rem] font-medium uppercase tracking-wide-luxe text-gold sm:text-[0.65rem];
+  }
+  .tone-noir .eyebrow {
+    @apply text-champagne;
+  }
+
+  .lead {
+    @apply text-[1.0625rem] leading-[1.7] text-muted sm:text-lg;
+  }
+  .tone-noir .lead {
+    @apply text-on-noir-muted;
+  }
+
+  /* Genummerd indexlabel, bv. 01 / 10 */
+  .index-tag {
+    @apply font-sans text-[0.65rem] tabular-nums tracking-luxe text-muted;
+  }
+  .tone-noir .index-tag {
+    @apply text-on-noir-muted;
+  }
+
+  /* --- Interactie --------------------------------------------------- */
+  .link-underline {
+    @apply relative inline-block;
+    background-image: linear-gradient(currentColor, currentColor);
+    background-size: 0% 1px;
+    background-repeat: no-repeat;
+    background-position: 0 100%;
+    transition: background-size 0.55s var(--ease-couture);
+  }
+  .link-underline:hover,
+  .link-underline:focus-visible {
+    background-size: 100% 1px;
+  }
+
+  /* Lijn die van links naar rechts doorloopt bij hover. */
+  .rule-hover {
+    @apply relative;
+  }
+  .rule-hover::after {
+    content: "";
+    @apply absolute bottom-0 left-0 h-px w-full origin-left scale-x-0 bg-current;
+    transition: transform 0.7s var(--ease-couture);
+  }
+  .group:hover .rule-hover::after,
+  .rule-hover:hover::after {
+    @apply scale-x-100;
+  }
+
+  .image-frame {
+    @apply relative overflow-hidden bg-cream;
+  }
+  .tone-noir .image-frame {
+    @apply bg-noir-raised;
+  }
+  .image-frame img {
+    transition: transform 1.4s var(--ease-couture);
+  }
+  .group:hover .image-frame img {
+    transform: scale(1.04);
+  }
+
+  /* --- Formulieren -------------------------------------------------- */
+  .field-input {
+    @apply w-full border-0 border-b border-line-strong bg-transparent px-0 py-3.5 text-base text-ink transition-colors duration-500 placeholder:text-muted/60 focus:border-ink focus:outline-none;
+  }
+  .field-input[aria-invalid="true"] {
+    @apply border-error;
+  }
+  .tone-noir .field-input {
+    @apply border-noir-line text-on-noir placeholder:text-on-noir-muted/60 focus:border-champagne;
+  }
+}
+
+@layer utilities {
+  /* Filmische korrel over donkere secties. */
+  .grain::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    opacity: 0.05;
+    mix-blend-mode: overlay;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180' viewBox='0 0 180 180'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  }
+
+  /* Verticaal gedraaid label langs de rand van een sectie. */
+  .vertical-label {
+    writing-mode: vertical-rl;
+    text-orientation: mixed;
+  }
+
+  .no-scrollbar {
+    scrollbar-width: none;
+  }
+  .no-scrollbar::-webkit-scrollbar {
+    display: none;
+  }
+}
+
+/* ------------------------------------------------------------------
+   CSS-entree voor de hero. Bewust geen JavaScript: de animatie start bij
+   de eerste paint in plaats van na hydration, wat de LCP laag houdt.
+   ------------------------------------------------------------------ */
+@keyframes dalas-rise {
+  from {
+    opacity: 0;
+    transform: translateY(26px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+/*
+   Het masker loopt aan de zijkanten iets búiten het vlak. Bodoni heeft schuine
+   cursieve uiteinden die anders recht worden afgesneden; de staarten (j, g, y)
+   krijgen ruimte via de padding op `.unveil` zelf.
+   */
+@keyframes dalas-unveil {
+  from {
+    clip-path: inset(0 -0.16em 100% -0.1em);
+  }
+  to {
+    clip-path: inset(0 -0.16em 0 -0.1em);
+  }
+}
+
+@keyframes dalas-curtain {
+  from {
+    transform: scaleY(1);
+  }
+  to {
+    transform: scaleY(0);
+  }
+}
+
+@keyframes dalas-marquee {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+@layer components {
+  .rise {
+    animation: dalas-rise 1s var(--ease-couture) both;
+  }
+
+  /*
+    Tekst die van onder naar boven wordt onthuld.
+
+    Het clip-masker volgt de border-box. Die is bij een kop met een krappe
+    regelhoogte (0.92) korter dan de letters zelf, waardoor de staarten van
+    j, g en y eraf vielen. De padding rekt de border-box naar beneden op en de
+    negatieve marge neemt die ruimte weer terug, zodat de regelafstand
+    onveranderd blijft.
+    */
+  .unveil {
+    padding-bottom: 0.3em;
+    margin-bottom: -0.3em;
+    animation: dalas-unveil 1.1s var(--ease-couture) both;
+  }
+
+  /* Beeld dat achter een oplopend gordijn vandaan komt. */
+  .curtain::after {
+    content: "";
+    @apply absolute inset-0 origin-bottom bg-noir;
+    animation: dalas-curtain 1.3s var(--ease-couture) both;
+    animation-delay: inherit;
+  }
+
+  .marquee-track {
+    animation: dalas-marquee 38s linear infinite;
+  }
+  .marquee-track:hover {
+    animation-play-state: paused;
+  }
+}
