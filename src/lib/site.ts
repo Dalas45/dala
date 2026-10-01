@@ -83,8 +83,16 @@ export const siteConfig = {
   contact: {
     phone: env("NEXT_PUBLIC_PHONE"),
     /** Internationaal zonder + of spaties, bv. 31612345678 */
-    whatsapp: env("NEXT_PUBLIC_WHATSAPP"),
+    whatsapp: env("NEXT_PUBLIC_WHATSAPP") ?? "31612739993",
     email: env("NEXT_PUBLIC_EMAIL"),
+  },
+  /**
+   * Wettelijke bedrijfsgegevens. Deze staan hier hard in plaats van in een env var:
+   * ze verschillen niet per omgeving en moeten op elke deploy zichtbaar zijn.
+   */
+  business: {
+    kvk: "92222188",
+    vat: "NL004943700B91",
   },
   address: {
     street: env("NEXT_PUBLIC_ADDRESS_STREET"),
@@ -110,6 +118,11 @@ export const siteConfig = {
     adsConversionContact: env("NEXT_PUBLIC_ADS_CONVERSION_CONTACT"),
   },
   ogImage: "/images/og/dalas-trouwjurken.jpg",
+  /** Vermelding van de bouwer in de footer. */
+  credit: {
+    name: "Start Beheer Solutions",
+    url: "https://startbeheer.nl/",
+  },
 } as const;
 
 export const hasAddress = Boolean(siteConfig.address.street && siteConfig.address.city);
@@ -120,6 +133,18 @@ export const whatsappHref = siteConfig.contact.whatsapp
   ? `https://wa.me/${siteConfig.contact.whatsapp.replace(/\D/g, "")}?text=${encodeURIComponent("Hallo Dalas, ik heb een vraag over een trouwjurk.")}`
   : undefined;
 export const emailHref = siteConfig.contact.email ? `mailto:${siteConfig.contact.email}` : undefined;
+
+/**
+ * Leesbare weergave van het WhatsApp-nummer.
+ * Nederlandse mobiele nummers worden gegroepeerd (+31 6 1234 5678); bij een andere
+ * landcode blijft het nummer ongewijzigd, met alleen een + ervoor.
+ */
+export const whatsappDisplay = ((): string | undefined => {
+  const digits = siteConfig.contact.whatsapp?.replace(/\D/g, "");
+  if (!digits) return undefined;
+  const nl = digits.match(/^31(6)(\d{4})(\d{4})$/);
+  return nl ? `+31 ${nl[1]} ${nl[2]} ${nl[3]}` : `+${digits}`;
+})();
 
 export const navigation = {
   // Vijf items is het maximum dat naast het logo en de knop past zonder te

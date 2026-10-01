@@ -189,13 +189,22 @@ export function JewelleryGrid({ items }: { items: JewelleryItem[] }) {
               </button>
             </div>
 
-            <div className="relative flex flex-1 items-center justify-center overflow-y-auto px-4 pb-10 sm:px-16">
+            {/*
+              Centreren gebeurt met `m-auto` op het kind, niet met
+              `items-center` op deze container. In een scrollbare flexcontainer
+              verdeelt `items-center` de overloop over bóven en onder, en wat
+              boven de scrollpositie uitsteekt is dan onbereikbaar: op mobiel
+              viel zo de bovenste helft van de foto weg. Automatische marges
+              nemen alleen positieve vrije ruimte op, dus de inhoud staat
+              gecentreerd als hij past en bovenaan zodra hij dat niet doet.
+            */}
+            <div className="relative flex flex-1 overflow-y-auto px-4 pb-10 pt-2 sm:px-16">
               <motion.div
                 key={active.slug}
                 initial={{ opacity: 0, scale: reduce ? 1 : 0.985 }}
                 animate={{ opacity: 1, scale: 1 }}
                 transition={{ duration: reduce ? 0 : 0.5, ease: [0.16, 1, 0.3, 1] }}
-                className="grid w-full max-w-5xl items-center gap-8 lg:grid-cols-2 lg:gap-14"
+                className="m-auto grid w-full max-w-5xl items-center gap-8 lg:grid-cols-2 lg:gap-14"
               >
                 {/* Zelfde verhouding als de foto; de hoogte blijft begrensd via
                     de breedte, zodat het sieraad ook op een laag scherm in één

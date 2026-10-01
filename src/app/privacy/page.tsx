@@ -21,6 +21,10 @@ const breadcrumbs: BreadcrumbItem[] = [
 
 const sections = [
   {
+    title: "Wie verantwoordelijk is",
+    body: `${siteConfig.fullName} is verantwoordelijk voor de verwerking van je gegevens. We staan ingeschreven bij de Kamer van Koophandel onder nummer ${siteConfig.business.kvk} en ons btw-identificatienummer is ${siteConfig.business.vat}.`,
+  },
+  {
     title: "Welke gegevens we verzamelen",
     body: "Wanneer je een formulier op deze website invult, vragen we om je naam en e-mailadres, en optioneel om je telefoonnummer en een bericht. Bij een afspraak- of prijsaanvraag leggen we vast om welke jurk het gaat.",
   },
@@ -42,8 +46,8 @@ const sections = [
  * Privacyverklaring.
  *
  * LET OP: dit is een feitelijke basis op grond van wat de website technisch doet.
- * Laat de tekst vóór livegang controleren en vul de bedrijfsgegevens aan
- * (KvK-nummer, verwerkersovereenkomsten, bewaartermijnen).
+ * Laat de tekst vóór livegang juridisch controleren en vul aan wat hier nog
+ * ontbreekt (verwerkersovereenkomsten, bewaartermijnen).
  */
 export default function PrivacyPage() {
   return (
@@ -68,7 +72,7 @@ export default function PrivacyPage() {
 
               <div className="flex gap-7 border-b border-line py-9 sm:gap-12">
                 <span className="font-sans text-[0.62rem] tabular-nums tracking-luxe text-gold" aria-hidden="true">
-                  05
+                  {String(sections.length + 1).padStart(2, "0")}
                 </span>
                 <div>
                   <h2 className="display-sm">Je rechten</h2>
@@ -95,7 +99,7 @@ export default function PrivacyPage() {
 
             <p className="mt-10 text-xs leading-relaxed text-muted">
               Deze verklaring beschrijft wat de website technisch doet. Laat hem vóór livegang juridisch controleren en vul de
-              bedrijfsgegevens en bewaartermijnen aan.
+              bewaartermijnen aan.
             </p>
           </div>
         </div>

@@ -3,7 +3,7 @@ import { Logo } from "@/components/layout/Logo";
 import { Clock, Facebook, Instagram, Mail, MapPin, Phone, WhatsApp } from "@/components/ui/Icons";
 import { TrackedAnchor } from "@/components/ui/TrackedLink";
 import { getAllDresses } from "@/lib/dresses";
-import { emailHref, hasAddress, navigation, phoneHref, siteConfig, whatsappHref } from "@/lib/site";
+import { emailHref, hasAddress, navigation, phoneHref, siteConfig, whatsappDisplay, whatsappHref } from "@/lib/site";
 
 /**
  * Footer in noir: de site sluit af zoals hij opent.
@@ -121,10 +121,11 @@ export function Footer() {
                     rel="noopener noreferrer"
                     event="whatsapp_click"
                     params={{ location: "footer" }}
-                    className="inline-flex items-center gap-2.5 transition-colors hover:text-on-noir"
+                    aria-label={`Stuur Dalas een WhatsApp-bericht op ${whatsappDisplay}`}
+                    className="inline-flex items-center gap-2.5 whitespace-nowrap transition-colors hover:text-on-noir"
                   >
                     <WhatsApp width={16} height={16} />
-                    WhatsApp
+                    {whatsappDisplay}
                   </TrackedAnchor>
                 </li>
               ) : null}
@@ -179,11 +180,31 @@ export function Footer() {
           </address>
         </div>
 
-        <div className="mt-16 flex flex-col gap-4 border-t border-noir-line pt-8 text-[0.68rem] text-on-noir-muted sm:flex-row sm:items-center sm:justify-between">
-          <p>
-            © {year} {siteConfig.fullName}. Alle rechten voorbehouden.
-          </p>
-          <p className="tracking-luxe">Trouwjurken huren · Bruidsjurken · Pasafspraak op maat</p>
+        <div className="mt-16 border-t border-noir-line pt-8 text-[0.68rem] text-on-noir-muted">
+          <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+            <p>
+              © {year} {siteConfig.fullName}. Alle rechten voorbehouden.
+            </p>
+            <p className="tabular-nums">
+              KVK {siteConfig.business.kvk} · BTW {siteConfig.business.vat}
+            </p>
+          </div>
+
+          <div className="mt-7 flex flex-col gap-3 border-t border-noir-line/60 pt-7 sm:flex-row sm:items-center sm:justify-between">
+            <p className="tracking-luxe">Trouwjurken huren · Bruidsjurken · Pasafspraak op maat</p>
+            <p>
+              gemaakt met <span aria-hidden="true" className="text-champagne">♥</span>
+              <span className="sr-only">liefde</span> door{" "}
+              <a
+                href={siteConfig.credit.url}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="link-underline text-on-noir transition-colors hover:text-champagne"
+              >
+                {siteConfig.credit.name}
+              </a>
+            </p>
+          </div>
         </div>
       </div>
     </footer>

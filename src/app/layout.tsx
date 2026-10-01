@@ -4,6 +4,7 @@ import { Analytics as VercelAnalytics } from "@vercel/analytics/next";
 import { Analytics, AnalyticsNoScript } from "@/components/layout/Analytics";
 import { Footer } from "@/components/layout/Footer";
 import { Header } from "@/components/layout/Header";
+import { StickyActions } from "@/components/layout/StickyActions";
 import { Cursor } from "@/components/motion/Cursor";
 import { ScrollProgress } from "@/components/motion/ScrollProgress";
 import { StructuredData } from "@/components/ui/StructuredData";
@@ -105,6 +106,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <Header />
         <main id="hoofdinhoud">{children}</main>
         <Footer />
+        <StickyActions />
 
         <StructuredData schema={[organizationSchema(), websiteSchema(), localBusinessSchema()]} />
         <Analytics />

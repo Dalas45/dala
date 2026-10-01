@@ -50,6 +50,12 @@ export function organizationSchema(): JsonLd {
     telephone: siteConfig.contact.phone,
     email: siteConfig.contact.email,
     address: postalAddress(),
+    vatID: siteConfig.business.vat,
+    identifier: {
+      "@type": "PropertyValue",
+      name: "KVK",
+      value: siteConfig.business.kvk,
+    },
     sameAs: sameAs(),
   });
 }
@@ -76,6 +82,12 @@ export function localBusinessSchema(): JsonLd | undefined {
     email: siteConfig.contact.email,
     address: postalAddress(),
     hasMap: siteConfig.address.mapsUrl,
+    vatID: siteConfig.business.vat,
+    identifier: {
+      "@type": "PropertyValue",
+      name: "KVK",
+      value: siteConfig.business.kvk,
+    },
     openingHoursSpecification,
     sameAs: sameAs(),
   });
