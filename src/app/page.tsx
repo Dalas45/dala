@@ -20,9 +20,9 @@ import { aggregateRatingSchema, collectionSchema, faqSchema } from "@/lib/schema
 import { buildMetadata } from "@/lib/seo";
 
 export const metadata: Metadata = buildMetadata({
-  title: "Trouwjurk huren bij Dalas | Exclusieve bruidsjurken",
+  title: "Trouwjurk huren in Haarlem | Dalas bruidsmode",
   description:
-    "Huur je trouwjurk bij Dalas. Bekijk de collectie baljurken, getailleerde jurken en A-lijn bruidsjurken, vraag de prijs op en plan een persoonlijke pasafspraak.",
+    "Huur je trouwjurk bij Dalas in Haarlem. Bekijk de collectie baljurken, getailleerde en A-lijn bruidsjurken, vraag de prijs op en plan een pasafspraak.",
   path: "/",
 });
 

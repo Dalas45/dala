@@ -8,9 +8,9 @@ import { breadcrumbSchema, faqSchema, type BreadcrumbItem } from "@/lib/schema";
 import { buildMetadata } from "@/lib/seo";
 
 export const metadata: Metadata = buildMetadata({
-  title: "Veelgestelde vragen | Trouwjurk huren bij Dalas",
+  title: "Veelgestelde vragen | Trouwjurk huren in Haarlem",
   description:
-    "Antwoorden op veelgestelde vragen over het huren van een trouwjurk bij Dalas: de pasafspraak, de prijs, maten en het reserveren van je jurk.",
+    "Antwoorden op veelgestelde vragen over het huren van een trouwjurk bij Dalas in Haarlem: de pasafspraak, de prijs, het reinigen en het reserveren.",
   path: "/faq",
 });
 

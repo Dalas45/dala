@@ -11,9 +11,9 @@ import { buildMetadata } from "@/lib/seo";
 import { hasAddress, phoneHref, siteConfig, whatsappHref } from "@/lib/site";
 
 export const metadata: Metadata = buildMetadata({
-  title: "Pasafspraak maken | Trouwjurk passen bij Dalas",
+  title: "Pasafspraak maken in Haarlem | Trouwjurk passen",
   description:
-    "Plan een persoonlijke pasafspraak bij Dalas en pas de trouwjurk van je keuze in alle rust. Laat je gegevens achter, dan nemen wij contact op.",
+    "Plan een persoonlijke pasafspraak bij Dalas in Haarlem en pas de trouwjurk van je keuze in alle rust. Laat je gegevens achter, dan nemen wij contact op.",
   path: "/afspraak",
 });
 

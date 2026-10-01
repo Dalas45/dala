@@ -11,7 +11,7 @@ import { buildMetadata } from "@/lib/seo";
 export const metadata: Metadata = buildMetadata({
   title: "Bruidssieraden, tiara's en boeketten | Dalas",
   description:
-    "Alles wat je look compleet maakt bij Dalas: kristallen colliers met oorbellen en armband, tiara's, bruidsboeketten en capes. Vraag de prijs op.",
+    "Alles wat je look compleet maakt bij Dalas in Haarlem: kristallen colliers met oorbellen en armband, tiara's, bruidsboeketten en capes. Vraag de prijs op.",
   path: "/sieraden",
 });
 

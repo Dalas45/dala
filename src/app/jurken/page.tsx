@@ -10,9 +10,9 @@ import { breadcrumbSchema, collectionSchema, type BreadcrumbItem } from "@/lib/s
 import { buildMetadata } from "@/lib/seo";
 
 export const metadata: Metadata = buildMetadata({
-  title: "Alle trouwjurken huren | De collectie van Dalas",
+  title: "Alle trouwjurken huren in Haarlem | Dalas",
   description:
-    "Bekijk alle trouwjurken van Dalas: baljurken, getailleerde jurken en A-lijn bruidsjurken met kant, kralen en sleep. Vraag de prijs op of plan een pasafspraak.",
+    "Bekijk alle trouwjurken van Dalas in Haarlem: baljurken, getailleerde jurken en A-lijn bruidsjurken met kant, kralen en sleep. Het reinigen is inbegrepen.",
   path: "/jurken",
 });
 

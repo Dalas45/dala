@@ -11,9 +11,9 @@ import { buildMetadata } from "@/lib/seo";
 import { emailHref, hasAddress, hasContact, phoneHref, siteConfig, whatsappHref } from "@/lib/site";
 
 export const metadata: Metadata = buildMetadata({
-  title: "Contact | Dalas trouwjurken",
+  title: "Contact | Dalas trouwjurken Haarlem",
   description:
-    "Neem contact op met Dalas over het huren van een trouwjurk. Stel je vraag via het formulier, bel of stuur een WhatsApp-bericht.",
+    "Neem contact op met Dalas in Haarlem over het huren van een trouwjurk. Stel je vraag via het formulier of stuur ons een WhatsApp-bericht.",
   path: "/contact",
 });
 

@@ -22,7 +22,7 @@ const reasons = [
   },
   {
     title: "Huren in plaats van kopen",
-    body: "Een couture-jurk dragen op jouw dag, zonder dat hij daarna jarenlang in de kast hangt.",
+    body: "Een couture-jurk dragen op jouw dag, zonder dat hij daarna jarenlang in de kast hangt. Het reinigen zit bij de huur inbegrepen.",
   },
 ];
 

@@ -32,8 +32,8 @@ export function Footer() {
           <div className="lg:col-span-4">
             <Logo />
             <p className="mt-7 max-w-sm text-sm leading-relaxed text-on-noir-muted">
-              Dalas verhuurt exclusieve trouwjurken. Persoonlijke begeleiding, een zorgvuldig samengestelde collectie en alle rust om
-              jouw jurk te vinden.
+              Dalas verhuurt exclusieve trouwjurken in Haarlem. Persoonlijke begeleiding, een zorgvuldig samengestelde collectie en alle
+              rust om jouw jurk te vinden.
             </p>
 
             {siteConfig.social.instagram || siteConfig.social.facebook ? (
@@ -191,7 +191,7 @@ export function Footer() {
           </div>
 
           <div className="mt-7 flex flex-col gap-3 border-t border-noir-line/60 pt-7 sm:flex-row sm:items-center sm:justify-between">
-            <p className="tracking-luxe">Trouwjurken huren · Bruidsjurken · Pasafspraak op maat</p>
+            <p className="tracking-luxe">Trouwjurken huren in Haarlem · Bruidsjurken · Reinigen inbegrepen</p>
             <p>
               gemaakt met <span aria-hidden="true" className="text-champagne">♥</span>
               <span className="sr-only">liefde</span> door{" "}

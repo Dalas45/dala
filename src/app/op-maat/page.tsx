@@ -12,9 +12,9 @@ import { breadcrumbSchema, madeToMeasureSchema, type BreadcrumbItem } from "@/li
 import { buildMetadata } from "@/lib/seo";
 
 export const metadata: Metadata = buildMetadata({
-  title: "Trouwjurk op maat laten maken | Dalas",
+  title: "Trouwjurk op maat laten maken in Haarlem | Dalas",
   description:
-    "Dalas maakt trouwjurken op maat. Het maken duurt ongeveer vier weken. Plan een afspraak om je wensen en je maten te bespreken.",
+    "Dalas in Haarlem maakt trouwjurken op maat. Het maken duurt ongeveer vier weken. Plan een afspraak om je wensen en je maten rustig te bespreken.",
   path: "/op-maat",
 });
 

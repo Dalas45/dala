@@ -79,7 +79,7 @@ export const siteConfig = {
   locale: "nl_NL",
   language: "nl",
   description:
-    "Dalas verhuurt exclusieve trouwjurken. Bekijk de collectie baljurken, getailleerde jurken en A-lijn trouwjurken, vraag de prijs op en plan een persoonlijke pasafspraak in de boutique.",
+    "Dalas verhuurt exclusieve trouwjurken in Haarlem. Bekijk de collectie baljurken, getailleerde jurken en A-lijn trouwjurken, vraag de prijs op en plan een pasafspraak.",
   contact: {
     phone: env("NEXT_PUBLIC_PHONE"),
     /** Internationaal zonder + of spaties, bv. 31612345678 */
@@ -97,7 +97,7 @@ export const siteConfig = {
   address: {
     street: env("NEXT_PUBLIC_ADDRESS_STREET"),
     postalCode: env("NEXT_PUBLIC_ADDRESS_POSTAL_CODE"),
-    city: env("NEXT_PUBLIC_ADDRESS_CITY"),
+    city: env("NEXT_PUBLIC_ADDRESS_CITY") ?? "Haarlem",
     country: env("NEXT_PUBLIC_ADDRESS_COUNTRY") ?? "NL",
     /** Google Maps-link of Google Business Profile-link */
     mapsUrl: env("NEXT_PUBLIC_MAPS_URL"),

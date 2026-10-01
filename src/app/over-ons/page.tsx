@@ -10,9 +10,9 @@ import { breadcrumbSchema, type BreadcrumbItem } from "@/lib/schema";
 import { buildMetadata } from "@/lib/seo";
 
 export const metadata: Metadata = buildMetadata({
-  title: "Over Dalas | Trouwjurken huren met persoonlijke aandacht",
+  title: "Over Dalas | Trouwjurken huren in Haarlem",
   description:
-    "Dalas verhuurt exclusieve trouwjurken met persoonlijke begeleiding. Lees hoe we onze collectie samenstellen en wat je van een pasafspraak mag verwachten.",
+    "Dalas verhuurt exclusieve trouwjurken in Haarlem, met persoonlijke begeleiding. Lees hoe we onze collectie samenstellen en wat een pasafspraak inhoudt.",
   path: "/over-ons",
 });
 

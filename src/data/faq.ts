@@ -9,12 +9,17 @@ export const faqItems: FaqItem[] = [
   {
     question: "Hoe werkt het huren van een trouwjurk bij Dalas?",
     answer:
-      "Je bekijkt de collectie online, kiest een of meer jurken die je aanspreken en plant een pasafspraak in de boutique. Tijdens de afspraak pas je de jurken en bespreken we samen de huurperiode, de prijs en eventuele aanpassingen.",
+      "Je bekijkt de collectie online, kiest een of meer jurken die je aanspreken en plant een pasafspraak in onze boutique in Haarlem. Tijdens de afspraak pas je de jurken en bespreken we samen de huurperiode, de prijs en eventuele aanpassingen. Na je trouwdag breng je de jurk terug; het reinigen regelen wij.",
   },
   {
     question: "Wat kost het huren van een trouwjurk?",
     answer:
       "De huurprijs verschilt per jurk. Op elke jurkpagina kun je de prijs opvragen; je ontvangt dan snel een persoonlijk antwoord. Tijdens de pasafspraak bespreken we alles wat bij de prijs inbegrepen is.",
+  },
+  {
+    question: "Moet ik de jurk zelf laten reinigen?",
+    answer:
+      "Nee. Het reinigen zit bij de huur inbegrepen. Je brengt de jurk na je trouwdag terug zoals hij is, ook met een vlek erop; wij zorgen dat hij weer in orde komt.",
   },
   {
     question: "Maken jullie ook trouwjurken op maat?",
@@ -29,7 +34,7 @@ export const faqItems: FaqItem[] = [
   {
     question: "Moet ik een afspraak maken om de collectie te bekijken?",
     answer:
-      "We raden het sterk aan. Met een afspraak heb je onze volledige aandacht en is de jurk van je keuze beschikbaar. Je plant eenvoudig een afspraak via de website.",
+      "We raden het sterk aan. Met een afspraak heb je in onze boutique in Haarlem onze volledige aandacht en is de jurk van je keuze beschikbaar. Je plant eenvoudig een afspraak via de website.",
   },
   {
     question: "In welke maten zijn de jurken beschikbaar?",
