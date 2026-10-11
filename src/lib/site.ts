@@ -114,9 +114,19 @@ export const siteConfig = {
     gaId: env("NEXT_PUBLIC_GA_ID"),
     /** Google Ads-tag. Geen geheim: dit id staat in de HTML van elke pagina. */
     adsId: env("NEXT_PUBLIC_GOOGLE_ADS_ID") ?? "AW-18470230470",
+    /** Conversieactie "Leadformulier indienen": telt alle drie de formulieren. */
+    adsConversionLead: env("NEXT_PUBLIC_ADS_CONVERSION_LEAD") ?? "E8kQCIfzqpkdEMazpedE",
+    /**
+     * Een eigen label per formulier, voor wie afspraak, prijsaanvraag en
+     * contact apart wil kunnen bieden. Leeg betekent: meetellen op de
+     * lead-conversie hierboven.
+     */
     adsConversionAppointment: env("NEXT_PUBLIC_ADS_CONVERSION_APPOINTMENT"),
     adsConversionPriceRequest: env("NEXT_PUBLIC_ADS_CONVERSION_PRICE_REQUEST"),
     adsConversionContact: env("NEXT_PUBLIC_ADS_CONVERSION_CONTACT"),
+    /** Waarde per aanvraag, zoals ingesteld in de conversieactie in Google Ads. */
+    adsConversionValue: 1,
+    adsConversionCurrency: "EUR",
   },
   ogImage: "/images/og/dalas-trouwjurken.jpg",
   /** Vermelding van de bouwer in de footer. */

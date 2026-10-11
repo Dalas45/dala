@@ -12,6 +12,10 @@ const EVENT: Record<ThanksKind, AnalyticsEvent> = {
   contact: "contact_submit",
 };
 
+/**
+ * Een eigen conversieactie per formulier, als die in Google Ads bestaat.
+ * Zolang die er niet is, telt alles mee op de ene lead-conversie.
+ */
 const LABEL: Record<ThanksKind, string | undefined> = {
   afspraak: siteConfig.analytics.adsConversionAppointment,
   prijs: siteConfig.analytics.adsConversionPriceRequest,
@@ -35,7 +39,12 @@ export function ConversionBeacon({ kind, dressSlug }: { kind: ThanksKind; dressS
     if (gemeld.current) return;
     gemeld.current = true;
     track(EVENT[kind], dressSlug ? { dress_slug: dressSlug } : {});
-    trackConversion(siteConfig.analytics.adsId, LABEL[kind]);
+    trackConversion({
+      adsId: siteConfig.analytics.adsId,
+      label: LABEL[kind] ?? siteConfig.analytics.adsConversionLead,
+      value: siteConfig.analytics.adsConversionValue,
+      currency: siteConfig.analytics.adsConversionCurrency,
+    });
   }, [kind, dressSlug]);
 
   return null;
