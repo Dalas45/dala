@@ -1,9 +1,11 @@
 import type { Metadata, Viewport } from "next";
+import { Suspense } from "react";
 import { Bodoni_Moda, Inter_Tight } from "next/font/google";
 import { Analytics as VercelAnalytics } from "@vercel/analytics/next";
 import { Analytics, AnalyticsNoScript } from "@/components/layout/Analytics";
 import { Footer } from "@/components/layout/Footer";
 import { Header } from "@/components/layout/Header";
+import { PageViews } from "@/components/layout/PageViews";
 import { StickyActions } from "@/components/layout/StickyActions";
 import { Cursor } from "@/components/motion/Cursor";
 import { ScrollProgress } from "@/components/motion/ScrollProgress";
@@ -110,6 +112,14 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
 
         <StructuredData schema={[organizationSchema(), websiteSchema(), localBusinessSchema()]} />
         <Analytics />
+        {/*
+          useSearchParams hoort achter een Suspense-grens, anders valt elke
+          statische pagina terug op rendering in de browser. Er is niets te
+          laten zien tijdens het wachten: de component rendert zelf ook niets.
+        */}
+        <Suspense fallback={null}>
+          <PageViews />
+        </Suspense>
         {/* Alleen op Vercel: elders bestaat het endpoint niet en levert het een 404 op. */}
         {process.env.VERCEL ? <VercelAnalytics /> : null}
       </body>

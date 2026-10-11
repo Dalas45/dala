@@ -49,6 +49,30 @@ export function track(event: AnalyticsEvent, params: AnalyticsParams = {}): void
   }
 }
 
+/**
+ * Paginaweergave bij een navigatie binnen de app.
+ *
+ * De gtag-snippet meldt alleen de pagina waarop de bezoeker binnenkomt. Daarna
+ * wisselt de App Router van pagina via de History API, zonder dat er een nieuw
+ * document wordt geladen, en ziet Google de rest van het bezoek niet. Zonder
+ * deze melding is een conversie op URL onmogelijk: /bedankt wordt bereikt met
+ * een navigatie, niet met een paginalading.
+ *
+ * Wordt niet bij de eerste render aangeroepen; die weergave staat al in de snippet.
+ */
+export function trackPageView(path: string): void {
+  if (typeof window === "undefined") return;
+  const location = `${window.location.origin}${path}`;
+  window.dataLayer = window.dataLayer ?? [];
+  window.dataLayer.push({ event: "page_view", page_path: path, page_location: location });
+  if (typeof window.gtag === "function") {
+    window.gtag("event", "page_view", { page_path: path, page_location: location });
+  }
+  if (process.env.NODE_ENV === "development") {
+    console.debug("[analytics] page_view", path);
+  }
+}
+
 export type ConversionKind = "appointment" | "price_request" | "contact";
 
 /**

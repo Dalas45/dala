@@ -2,6 +2,18 @@ import Script from "next/script";
 import { siteConfig } from "@/lib/site";
 
 /**
+ * Alleen in productie een tag laden. Een Google Ads-tag die meeluistert op
+ * `next dev` of op een preview-deploy maakt van elk testformulier een echte
+ * conversie, en dat vervuilt precies de cijfers waarop de advertenties bieden.
+ * In development logt `track()` de events wel in de console.
+ *
+ * VERCEL_ENV is "production", "preview" of "development"; buiten Vercel bestaat
+ * het niet, en dan is NODE_ENV het enige wat we hebben.
+ */
+const inProductie =
+  process.env.NODE_ENV === "production" && (process.env.VERCEL_ENV ?? "production") === "production";
+
+/**
  * Laadt Google Tag Manager óf een directe gtag-installatie (GA4 / Google Ads),
  * afhankelijk van welke environment variables zijn ingevuld. Zonder configuratie
  * wordt er niets geladen, zodat de site standaard geen externe scripts ophaalt.
@@ -10,6 +22,8 @@ import { siteConfig } from "@/lib/site";
  */
 export function Analytics() {
   const { gtmId, gaId, adsId } = siteConfig.analytics;
+
+  if (!inProductie) return null;
 
   if (gtmId) {
     return (
@@ -42,7 +56,7 @@ ${adsId ? `gtag('config', '${adsId}');` : ""}`}
 /** Noscript-fallback voor GTM; hoort direct na de openende body-tag. */
 export function AnalyticsNoScript() {
   const { gtmId } = siteConfig.analytics;
-  if (!gtmId) return null;
+  if (!inProductie || !gtmId) return null;
   return (
     <noscript>
       <iframe

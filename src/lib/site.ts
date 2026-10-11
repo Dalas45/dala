@@ -112,7 +112,8 @@ export const siteConfig = {
   analytics: {
     gtmId: env("NEXT_PUBLIC_GTM_ID"),
     gaId: env("NEXT_PUBLIC_GA_ID"),
-    adsId: env("NEXT_PUBLIC_GOOGLE_ADS_ID"),
+    /** Google Ads-tag. Geen geheim: dit id staat in de HTML van elke pagina. */
+    adsId: env("NEXT_PUBLIC_GOOGLE_ADS_ID") ?? "AW-18470230470",
     adsConversionAppointment: env("NEXT_PUBLIC_ADS_CONVERSION_APPOINTMENT"),
     adsConversionPriceRequest: env("NEXT_PUBLIC_ADS_CONVERSION_PRICE_REQUEST"),
     adsConversionContact: env("NEXT_PUBLIC_ADS_CONVERSION_CONTACT"),
