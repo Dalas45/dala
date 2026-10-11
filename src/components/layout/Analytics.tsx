@@ -49,9 +49,16 @@ j.async=true;j.src='https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNo
     );
   }
 
-  // Eén tag per pagina, ook als er straks een GA4-id bij komt: gtag.js wordt
-  // één keer geladen en krijgt daarna een config-regel per property.
-  const directId = gaId ?? adsId;
+  // Eén tag per pagina: gtag.js wordt één keer geladen en krijgt daarna een
+  // config-regel per property.
+  //
+  // Het Ads-id gaat voor in de laad-URL. Dat is geen willekeur: laadt dat ene
+  // script niet, dan werkt er niets meer, ook de config-regels niet. Toen hier
+  // het GA4-id stond gaf googletagmanager.com daar 404 op, en lag daarmee ook
+  // de conversiemeting van Google Ads plat. De advertenties hangen van die
+  // meting af; GA4 is rapportage. Dus draagt het id met het meeste te
+  // verliezen de laad-URL, en komt het andere er als config-regel bij.
+  const directId = adsId ?? gaId;
   if (!directId) return null;
 
   return (
