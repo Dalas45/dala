@@ -10,6 +10,10 @@ const nextConfig: NextConfig = {
     minimumCacheTTL: 60 * 60 * 24 * 30,
   },
   transpilePackages: ["three"],
+  // Nodemailer gebruikt Node-specifieke modules (net, tls, dns) en hoort niet
+  // door de bundler van de Server Components te gaan; met een native require
+  // blijft het werken op Vercel.
+  serverExternalPackages: ["nodemailer"],
   async headers() {
     return [
       {
