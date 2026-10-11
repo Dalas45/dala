@@ -122,7 +122,13 @@ export const siteConfig = {
   },
   analytics: {
     gtmId: env("NEXT_PUBLIC_GTM_ID"),
-    gaId: env("NEXT_PUBLIC_GA_ID"),
+    /**
+     * GA4-meet-id van de stream "Dalas" (property 558430581). Geen geheim:
+     * net als het Ads-id staat het in de HTML van elke pagina. Eén gtag.js
+     * wordt geladen en krijgt een config-regel per property, dus er blijft
+     * één Google-tag per pagina staan.
+     */
+    gaId: env("NEXT_PUBLIC_GA_ID") ?? "G-9FVVGTHRYE",
     /** Google Ads-tag. Geen geheim: dit id staat in de HTML van elke pagina. */
     adsId: env("NEXT_PUBLIC_GOOGLE_ADS_ID") ?? "AW-18470230470",
     /** Conversieactie "Leadformulier indienen": telt alle drie de formulieren. */
