@@ -68,7 +68,18 @@ function parseOpeningHours(raw?: string): OpeningHoursSpec[] {
     });
 }
 
-const siteUrl = env("NEXT_PUBLIC_SITE_URL") ?? "http://localhost:3000";
+/**
+ * Het eigen domein is de standaard, niet localhost.
+ *
+ * Hieruit komen de canonical, de og-tags, robots.txt en elke URL in de
+ * sitemap. Stond hier localhost, dan wees de hele site Google naar een adres
+ * dat alleen op de computer van de bouwer bestaat en kon er niets
+ * geïndexeerd worden. In development blijft localhost staan, zodat links
+ * daar naar de eigen server wijzen; NEXT_PUBLIC_SITE_URL overschrijft beide.
+ */
+const siteUrl =
+  env("NEXT_PUBLIC_SITE_URL") ??
+  (process.env.NODE_ENV === "development" ? "http://localhost:3000" : "https://www.dalas-boutique.nl");
 
 export const siteConfig = {
   name: "Dalas",
@@ -127,6 +138,12 @@ export const siteConfig = {
     /** Waarde per aanvraag, zoals ingesteld in de conversieactie in Google Ads. */
     adsConversionValue: 1,
     adsConversionCurrency: "EUR",
+    /**
+     * Verificatietoken van Google Search Console: de `content` uit de
+     * meta-tag die Search Console geeft bij de methode "HTML-tag". Niet
+     * geheim, die tag staat in de HTML van elke pagina.
+     */
+    searchConsole: env("NEXT_PUBLIC_GOOGLE_SITE_VERIFICATION"),
   },
   ogImage: "/images/og/dalas-trouwjurken.jpg",
   /** Vermelding van de bouwer in de footer. */

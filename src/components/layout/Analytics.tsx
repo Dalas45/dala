@@ -1,4 +1,3 @@
-import Script from "next/script";
 import { siteConfig } from "@/lib/site";
 
 /**
@@ -18,7 +17,15 @@ const inProductie =
  * afhankelijk van welke environment variables zijn ingevuld. Zonder configuratie
  * wordt er niets geladen, zodat de site standaard geen externe scripts ophaalt.
  *
- * Alle scripts gebruiken strategy="afterInteractive": ze blokkeren de eerste render niet.
+ * Hoort in de <head> van de root layout en staat daar bewust als gewone
+ * <script>, niet via next/script. Google schrijft voor dat de tag direct na
+ * <head> staat, en next/script haalt hem daar juist weg: zelfs met
+ * beforeInteractive belandt hij in de eigen scriptlader van Next, verderop in
+ * de body. Dat is hier geen formaliteit — de tag schrijft bij binnenkomst de
+ * gclid uit de advertentielink in een cookie, en wie wegklikt voordat dat
+ * gebeurd is, is een betaalde klik die niet meer aan een latere aanvraag te
+ * koppelen valt. Het externe script houdt `async`, dus het blokkeert de
+ * opbouw van de pagina niet.
  */
 export function Analytics() {
   const { gtmId, gaId, adsId } = siteConfig.analytics;
@@ -27,28 +34,37 @@ export function Analytics() {
 
   if (gtmId) {
     return (
-      <Script id="gtm" strategy="afterInteractive">
-        {`(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':new Date().getTime(),event:'gtm.js'});
+      // De GoogleTagManager-component van @next/third-parties die de lintregel
+      // voorstelt laadt de container pas na de hydratie, en dat is precies wat
+      // hier niet moet. Zie de uitleg boven deze component.
+      // eslint-disable-next-line @next/next/next-script-for-ga
+      <script
+        dangerouslySetInnerHTML={{
+          __html: `(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':new Date().getTime(),event:'gtm.js'});
 var f=d.getElementsByTagName(s)[0],j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';
 j.async=true;j.src='https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
-})(window,document,'script','dataLayer','${gtmId}');`}
-      </Script>
+})(window,document,'script','dataLayer','${gtmId}');`,
+        }}
+      />
     );
   }
 
+  // Eén tag per pagina, ook als er straks een GA4-id bij komt: gtag.js wordt
+  // één keer geladen en krijgt daarna een config-regel per property.
   const directId = gaId ?? adsId;
   if (!directId) return null;
 
   return (
     <>
-      <Script src={`https://www.googletagmanager.com/gtag/js?id=${directId}`} strategy="afterInteractive" />
-      <Script id="gtag-init" strategy="afterInteractive">
-        {`window.dataLayer = window.dataLayer || [];
+      <script async src={`https://www.googletagmanager.com/gtag/js?id=${directId}`} />
+      <script
+        dangerouslySetInnerHTML={{
+          __html: `window.dataLayer = window.dataLayer || [];
 function gtag(){dataLayer.push(arguments);}
 gtag('js', new Date());
-${gaId ? `gtag('config', '${gaId}');` : ""}
-${adsId ? `gtag('config', '${adsId}');` : ""}`}
-      </Script>
+${gaId ? `gtag('config', '${gaId}');\n` : ""}${adsId ? `gtag('config', '${adsId}');` : ""}`,
+        }}
+      />
     </>
   );
 }

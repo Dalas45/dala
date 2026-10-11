@@ -70,6 +70,11 @@ export const metadata: Metadata = {
     follow: true,
     googleBot: { index: true, follow: true, "max-image-preview": "large", "max-snippet": -1, "max-video-preview": -1 },
   },
+  // Search Console verifieert het eigendom van het domein via deze meta-tag.
+  // Zonder token blijft hij weg; een lege tag is erger dan geen tag.
+  ...(siteConfig.analytics.searchConsole
+    ? { verification: { google: siteConfig.analytics.searchConsole } }
+    : {}),
 };
 
 export const viewport: Viewport = {
@@ -83,6 +88,8 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
   return (
     <html lang="nl" data-scroll-behavior="smooth" className={`${bodoni.variable} ${interTight.variable}`}>
       <head>
+        {/* De Google-tag hoort volgens Google direct na <head>, dus staat hij vooraan. */}
+        <Analytics />
         {/*
           Scroll-animaties starten verborgen: op opacity 0, of weggeschoven onder
           een masker. Zonder JavaScript wordt die beginstand nooit weggeanimeerd,
@@ -111,7 +118,6 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <StickyActions />
 
         <StructuredData schema={[organizationSchema(), websiteSchema(), localBusinessSchema()]} />
-        <Analytics />
         {/*
           useSearchParams hoort achter een Suspense-grens, anders valt elke
           statische pagina terug op rendering in de browser. Er is niets te
