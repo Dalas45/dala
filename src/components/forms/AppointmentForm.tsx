@@ -1,12 +1,10 @@
 "use client";
 
-import { useActionState, useEffect, useRef, useState } from "react";
+import { useActionState, useState } from "react";
 import { useFormStatus } from "react-dom";
 import { AntiSpamFields, ConsentField, SelectField, SubmitButton, TextAreaField, TextField } from "@/components/forms/FormField";
 import { FormStatusMessage } from "@/components/forms/FormStatusMessage";
 import { submitAppointment, type FormState } from "@/lib/actions";
-import { track, trackConversion } from "@/lib/analytics";
-import { siteConfig } from "@/lib/site";
 import type { Dress } from "@/lib/types";
 
 const initial: FormState = { status: "idle" };
@@ -30,25 +28,15 @@ interface AppointmentFormProps {
 export function AppointmentForm({ dresses, selectedSlug }: AppointmentFormProps) {
   const [state, formAction] = useActionState(submitAppointment, initial);
   const [startedAt] = useState(() => Date.now());
-  const formRef = useRef<HTMLFormElement>(null);
-  const headingRef = useRef<HTMLDivElement>(null);
 
-  useEffect(() => {
-    if (state.status !== "success") return;
-    track("appointment_request_submit", { dress_slug: selectedSlug });
-    trackConversion(siteConfig.analytics.adsId, siteConfig.analytics.adsConversionAppointment);
-    formRef.current?.reset();
-    headingRef.current?.scrollIntoView({ behavior: "smooth", block: "center" });
-  }, [state.status, selectedSlug]);
-
+  // Geen afhandeling van "geslaagd": de server action stuurt dan door naar
+  // /bedankt. Wat hier overblijft, is het tonen van fouten.
   const errors = state.errors ?? {};
 
   return (
-    <form ref={formRef} action={formAction} noValidate className="relative space-y-9">
+    <form action={formAction} noValidate className="relative space-y-9">
       <AntiSpamFields startedAt={startedAt} />
-      <div ref={headingRef}>
-        <FormStatusMessage state={state} />
-      </div>
+      <FormStatusMessage state={state} />
 
       <div className="grid gap-9 sm:grid-cols-2">
         <TextField id="afspraak-naam" name="name" label="Naam" autoComplete="name" required error={errors.name} />

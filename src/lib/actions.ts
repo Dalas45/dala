@@ -1,6 +1,7 @@
 "use server";
 
 import { headers } from "next/headers";
+import { redirect } from "next/navigation";
 import type { z } from "zod";
 import { getDressBySlug } from "@/lib/dresses";
 import { sendNotification } from "@/lib/email";
@@ -53,6 +54,19 @@ function formErrors(error: z.ZodError): Record<string, string> {
 
 const GENERIC_ERROR = "Er ging iets mis bij het verzenden. Probeer het later opnieuw of neem rechtstreeks contact met ons op.";
 
+/**
+ * Doel van de doorverwijzing na een geslaagde verzending.
+ *
+ * `redirect` gooit een NEXT_REDIRECT-fout en moet daarom buiten een try/catch
+ * staan. Next stuurt een 303 bij een formulier zonder JavaScript en navigeert
+ * client-side wanneer JavaScript wel beschikbaar is.
+ */
+function thanksPath(type: "afspraak" | "prijs" | "contact", dressSlug?: string): string {
+  const params = new URLSearchParams({ type });
+  if (dressSlug) params.set("jurk", dressSlug);
+  return `/bedankt?${params.toString()}`;
+}
+
 function toObject(formData: FormData): Record<string, string> {
   const obj: Record<string, string> = {};
   formData.forEach((value, key) => {
@@ -65,10 +79,11 @@ function line(label: string, value?: string): string {
   return value && value.trim() ? `${label}: ${value.trim()}\n` : "";
 }
 
-async function guard(raw: Record<string, string>): Promise<FormState | null> {
+async function guard(raw: Record<string, string>, thanks: string): Promise<FormState | null> {
   if (raw.website) {
-    // Honeypot ingevuld: bot. Doe alsof het gelukt is.
-    return { status: "success", message: "Bedankt, je aanvraag is ontvangen." };
+    // Honeypot ingevuld: bot. Dezelfde afloop als een echte verzending, zodat
+    // niet te zien is dat het veld de aanvraag heeft tegengehouden.
+    redirect(thanks);
   }
   if (tooFast(raw._t)) {
     return { status: "error", message: "Het formulier is te snel verzonden. Controleer je gegevens en probeer opnieuw." };
@@ -81,7 +96,7 @@ async function guard(raw: Record<string, string>): Promise<FormState | null> {
 
 export async function submitAppointment(_prev: FormState, formData: FormData): Promise<FormState> {
   const raw = toObject(formData);
-  const blocked = await guard(raw);
+  const blocked = await guard(raw, thanksPath("afspraak", raw.dress));
   if (blocked) return blocked;
 
   const parsed = appointmentSchema.safeParse(raw);
@@ -105,15 +120,12 @@ export async function submitAppointment(_prev: FormState, formData: FormData): P
     replyTo: data.email,
   });
   if (!sent) return { status: "error", message: GENERIC_ERROR };
-  return {
-    status: "success",
-    message: "Bedankt, je afspraakaanvraag is ontvangen. We nemen zo snel mogelijk contact met je op om de afspraak te bevestigen.",
-  };
+  redirect(thanksPath("afspraak", dress?.slug));
 }
 
 export async function submitPriceRequest(_prev: FormState, formData: FormData): Promise<FormState> {
   const raw = toObject(formData);
-  const blocked = await guard(raw);
+  const blocked = await guard(raw, thanksPath("prijs", raw.dress));
   if (blocked) return blocked;
 
   const parsed = priceRequestSchema.safeParse(raw);
@@ -134,15 +146,12 @@ export async function submitPriceRequest(_prev: FormState, formData: FormData): 
 
   const sent = await sendNotification({ subject: `Prijsaanvraag – ${dress.name} – ${data.name}`, text, replyTo: data.email });
   if (!sent) return { status: "error", message: GENERIC_ERROR };
-  return {
-    status: "success",
-    message: `Bedankt, je prijsaanvraag voor ${dress.name} is ontvangen. Je ontvangt zo snel mogelijk een persoonlijk antwoord.`,
-  };
+  redirect(thanksPath("prijs", dress.slug));
 }
 
 export async function submitContact(_prev: FormState, formData: FormData): Promise<FormState> {
   const raw = toObject(formData);
-  const blocked = await guard(raw);
+  const blocked = await guard(raw, thanksPath("contact"));
   if (blocked) return blocked;
 
   const parsed = contactSchema.safeParse(raw);
@@ -164,5 +173,5 @@ export async function submitContact(_prev: FormState, formData: FormData): Promi
     replyTo: data.email,
   });
   if (!sent) return { status: "error", message: GENERIC_ERROR };
-  return { status: "success", message: "Bedankt voor je bericht. We reageren zo snel mogelijk." };
+  redirect(thanksPath("contact"));
 }

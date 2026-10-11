@@ -1,12 +1,10 @@
 "use client";
 
-import { useActionState, useEffect, useRef, useState } from "react";
+import { useActionState, useState } from "react";
 import { useFormStatus } from "react-dom";
 import { AntiSpamFields, ConsentField, SubmitButton, TextAreaField, TextField } from "@/components/forms/FormField";
 import { FormStatusMessage } from "@/components/forms/FormStatusMessage";
 import { submitContact, type FormState } from "@/lib/actions";
-import { track, trackConversion } from "@/lib/analytics";
-import { siteConfig } from "@/lib/site";
 
 const initial: FormState = { status: "idle" };
 
@@ -23,25 +21,15 @@ function Submit() {
 export function ContactForm({ defaultSubject }: { defaultSubject?: string }) {
   const [state, formAction] = useActionState(submitContact, initial);
   const [startedAt] = useState(() => Date.now());
-  const formRef = useRef<HTMLFormElement>(null);
-  const statusRef = useRef<HTMLDivElement>(null);
 
-  useEffect(() => {
-    if (state.status !== "success") return;
-    track("contact_submit");
-    trackConversion(siteConfig.analytics.adsId, siteConfig.analytics.adsConversionContact);
-    formRef.current?.reset();
-    statusRef.current?.scrollIntoView({ behavior: "smooth", block: "center" });
-  }, [state.status]);
-
+  // Geen afhandeling van "geslaagd": de server action stuurt dan door naar
+  // /bedankt. Wat hier overblijft, is het tonen van fouten.
   const errors = state.errors ?? {};
 
   return (
-    <form ref={formRef} action={formAction} noValidate className="relative space-y-9">
+    <form action={formAction} noValidate className="relative space-y-9">
       <AntiSpamFields startedAt={startedAt} />
-      <div ref={statusRef}>
-        <FormStatusMessage state={state} />
-      </div>
+      <FormStatusMessage state={state} />
 
       <div className="grid gap-9 sm:grid-cols-2">
         <TextField id="contact-naam" name="name" label="Naam" autoComplete="name" required error={errors.name} />
