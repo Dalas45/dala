@@ -123,7 +123,7 @@ export function breadcrumbSchema(items: BreadcrumbItem[]): JsonLd {
   };
 }
 
-export function productSchema(dress: Dress): JsonLd {
+export function productSchema(dress: Dress): JsonLd | undefined {
   const url = absoluteUrl(`/jurken/${dress.slug}`);
   const offers = dress.price
     ? {
@@ -136,6 +136,16 @@ export function productSchema(dress: Dress): JsonLd {
         seller: { "@id": ORGANIZATION_ID },
       }
     : undefined;
+
+  // Zonder prijs geen Product.
+  //
+  // Google keurt een productfragment zonder offers, review of beoordeling af,
+  // en de huurprijzen staan bewust niet op de site. Dan is géén Product beter
+  // dan een exemplaar dat in Search Console blijft staan als ongeldig item en
+  // echte problemen overschreeuwt. De jurkpagina houdt haar breadcrumb, titel,
+  // description en og-tags. Zodra er een prijs in de jurkdata staat, komt de
+  // volledige markup vanzelf terug.
+  if (!offers) return undefined;
 
   return compact({
     "@context": "https://schema.org",
@@ -212,7 +222,10 @@ export function madeToMeasureSchema(): JsonLd {
     serviceType: "Trouwjurk op maat laten maken",
     description: "Dalas maakt trouwjurken op maat. Het maken duurt ongeveer vier weken.",
     provider: { "@id": ORGANIZATION_ID },
-    serviceOutput: { "@type": "Product", name: "Trouwjurk op maat" },
+    // Hier stond een serviceOutput met een Product dat alleen een naam had.
+    // Google las dat als productfragment en keurde het af, om dezelfde reden
+    // als bij de jurken: geen prijs, geen review, geen beoordeling. De Service
+    // zelf zegt al wat er gemaakt wordt, dus het voegde niets toe.
     availableChannel: {
       "@type": "ServiceChannel",
       name: "Pasafspraak",
